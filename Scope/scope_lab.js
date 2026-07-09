@@ -62,7 +62,7 @@ console.log('assigning var1')
 var1 += 2
 console.log('var1 value', var1)
 
-console.log('assigning var2')
+console.log('assigning var2, this actually works also outside scope, gets redfined?')
 var2 = 44
 console.log('var2 value', var2)
 
