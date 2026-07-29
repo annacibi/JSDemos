@@ -1,6 +1,6 @@
 let userRole = "admin";
 let accessLevel;
-
+console.log("is it running");
 if (userRole === "admin") {
     accessLevel = "Full acess granted";
 } else if (useRole === "manager") {
