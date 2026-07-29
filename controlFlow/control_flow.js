@@ -24,7 +24,7 @@ if (isLoggedIn) {
     userMessage = "Please log in to access the system.";
 }
 
-console.log("User Message2:", userMessage);
+console.log("User Message:", userMessage);
 
 
 let userType = "subscriber";
