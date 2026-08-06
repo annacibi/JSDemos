@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Test page </title>
+    <style>
+        #toast-container {
+            position: fixed;
+            top: 16px;
+            right: 296px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .toast {
+            min-width: 220px;
+            max-width: 340px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success { background: #2e7d32; }
+        .toast.error { background: #c62828; }
+        .toast.info { background: #1565c0; }
+    </style>
+</head>
+<body>
+    <h1> Test page </h1>
+    <p> This is a test page. </p>
+
+    <form action="/check-name" method="post">
+        <label for="role">Enter your role:</label>
+        <input type="text" id="role" name="role" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        <div id="flash-data" hidden>
+            {% for category, message in messages %}
+                <div class="flash-item" data-category="{{ category }}" data-message="{{ message }}"></div>
+            {% endfor %}
+        </div>
+    {% endwith %}
+
+    <script>
+        function showToast(message, category) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${category || 'info'}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 250);
+            }, 3000);
+        }
+
+        const flashedItems = document.querySelectorAll('#flash-data .flash-item');
+
+        let fullDS_access = false;
+        let accessDieticianSession = false;
+        let displayMessage = "";
+        let needEnrolling = false;
+        
+        flashedItems.forEach((item) => {
+            let toastCategory = item.dataset.category || "info";
+
+            let userRole = item.dataset.message;
+            if (userRole == "employee") {
+                displayMessage = "You can access the Dietary Services";
+                fullDS_access= true;
+            } else if (userRole == "enrolled member") {
+                displayMessage = "You can access the Dietary Services, and a session with a dietician.";
+                accessDieticianSession = true;
+                fullDS_access= true;
+            } else if (userRole == "subscriber") {
+                displayMessage = "You have partial access to Dietary Services";
+
+            } else {
+                displayMessage='You do not have access to Dietary Services. Please enroll or subscribe.';
+                needEnrolling = true;
+                toastCategory = "error";
+            }
+            
+            showToast(displayMessage, toastCategory);
+        });
+    </script>
+</body>
+</html>
