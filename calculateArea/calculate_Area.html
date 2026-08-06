@@ -6,5 +6,25 @@
     <body>
         <h1>Rectangle Area Calculator</h1>
         <label for="length"> Enter the length </label>
+        <input type="number" id="length" name="length"></input><br><br>
+        <label for="width"> Enter the width </label>
+        <input type="number" id="width" name="width"></input><br><br>
+
+        <button  onclick="calculateArea()"> Calculate Area</button><br><br>
+
+        <p id="result"></p>
+
+        <label for="groc1"> Enter grocery-1 amount</label>
+        <input type="number" id="groc1" name="groc1"></input><br><br>
+
+        <label for="groc2"> Enter grocery-2 amount</label>
+        <input type="number" id="groc2" name="groc2"></input><br><br>
+
+        <label for="groc3"> Enter grocery-3 amount</label>
+        <input type="number" id="groc3" name="groc3"></input><br><br>
+
+        <button onclick=calculateGroceryTotal()> Calculate Grocery Total</button><br><br>
+        <p id="groceryTotal"></p>
+        <script src="/calculations.js"></script>
     </body>
  </html>       
